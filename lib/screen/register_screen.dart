@@ -1,3 +1,4 @@
+import 'package:apptesttest/screen/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -59,14 +60,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   UserCredential user =
                       await auth.createUserWithEmailAndPassword(
                           email: email!, password: pass!);
-                  // print(user.user!.displayName);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("added successfully"),
                     ),
                   );
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return HomeScreen();
+                    },
+                  ));
                 } on Exception catch (e) {
-                   ScaffoldMessenger.of(context).showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("sorry there is an error $e")));
                 }
               },

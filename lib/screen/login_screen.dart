@@ -1,4 +1,3 @@
-
 import 'package:apptesttest/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,8 +14,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-     String? email;
-  String? pass;
+    String? email;
+    String? pass;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,9 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 200,
               child: Image.asset("assets/images/future.jpg"),
             ),
-            TextField(onChanged: (data) {
-              email=data;
-            },
+            TextField(
+              onChanged: (data) {
+                email = data;
+              },
               decoration: InputDecoration(hintText: "Enter email"),
             ),
             SizedBox(
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               onChanged: (data) {
-                pass=data;
+                pass = data;
               },
               decoration: InputDecoration(hintText: "enter pas"),
             ),
@@ -49,14 +49,21 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             ElevatedButton(
-           onPressed: () async {
-                var auth = FirebaseAuth.instance;
-                UserCredential user = await auth.signInWithEmailAndPassword(
-                    email: email!, password: pass!);
-                print(user.user!.displayName);
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return HomeScreen();
-                },));
+              onPressed: () async {
+                try {
+                  var auth = FirebaseAuth.instance;
+                  UserCredential user = await auth.signInWithEmailAndPassword(
+                      email: email!, password: pass!);
+                  print(user.user!.displayName);
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return HomeScreen();
+                    },
+                  ));
+                } on Exception catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("sorry there is an error $e")));
+                }
               },
               child: Text("log in "),
             ),
